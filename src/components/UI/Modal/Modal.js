@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './Modal.css';
 import Aux from '../../../hoc/Aux/Aux';
@@ -29,5 +30,11 @@ class Modal extends Component {
         );
     }
 }
+
+Modal.propTypes = {
+    children: PropTypes.node.isRequired,
+    show: PropTypes.bool.isRequired,
+    modalClosed: PropTypes.func.isRequired,
+};
 
 export default Modal;

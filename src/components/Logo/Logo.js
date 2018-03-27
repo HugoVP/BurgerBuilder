@@ -3,7 +3,7 @@ import React from 'react';
 import burgerLogo from '../../assets/images/burger-logo.png';
 import classes from './Logo.css';
 
-function logo(props) {
+function logo() {
     return (
         <div className={classes.Logo}>
             <img

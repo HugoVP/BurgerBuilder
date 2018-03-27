@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Aux from '../Aux/Aux';
 import classes from './Layout.css';
@@ -31,6 +32,10 @@ class Layout extends Component {
       </Aux>
     );
   }
+}
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export default Layout;

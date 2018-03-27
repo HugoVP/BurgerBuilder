@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './SideDrawer.css';
 import Logo from '../../Logo/Logo';
@@ -26,5 +27,10 @@ function sideDrawer(props) {
         </Aux>
     );
 }
+
+sideDrawer.propTypes = {
+    open: PropTypes.bool.isRequired,
+    closed: PropTypes.func.isRequired,
+};
 
 export default sideDrawer;

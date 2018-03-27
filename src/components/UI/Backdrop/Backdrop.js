@@ -1,4 +1,5 @@
- import React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './Backdrop.css';
 
@@ -12,5 +13,10 @@ function backdrop(props) {
         </div>
     ) : null;
 }
+
+backdrop.propTypes = {
+    children: PropTypes.node,
+    clicked: PropTypes.func.isRequired,
+};
 
 export default backdrop;
