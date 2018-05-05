@@ -16,7 +16,8 @@ function backdrop(props) {
 
 backdrop.propTypes = {
     children: PropTypes.node,
-    clicked: PropTypes.func.isRequired,
+    clicked: PropTypes.func,
+    show: PropTypes.bool,
 };
 
 export default backdrop;

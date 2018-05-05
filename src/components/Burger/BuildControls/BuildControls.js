@@ -52,13 +52,13 @@ function buildControls(props) {
 buildControls.propTypes = {
     price: PropTypes.number.isRequired,
     purchasable: PropTypes.bool.isRequired,
-    disabled: PropTypes.shape({
-        salad: PropTypes.bool.isRequired,
-        bacon: PropTypes.bool.isRequired,
-        cheese: PropTypes.bool.isRequired,
-        meat: PropTypes.bool.isRequired,
-    })
-    .isRequired,
+    // disabled: PropTypes.shape({
+    //     salad: PropTypes.bool.isRequired,
+    //     bacon: PropTypes.bool.isRequired,
+    //     cheese: PropTypes.bool.isRequired,
+    //     meat: PropTypes.bool.isRequired,
+    // })
+    // .isRequired,
     ordered: PropTypes.func.isRequired,
     ingredientAdded: PropTypes.func.isRequired,
     ingredientRemoved: PropTypes.func.isRequired,
