@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 import classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
@@ -16,6 +17,8 @@ class Burger extends Component {
   };
 
   render() {
+    console.log(this.props);
+
     const { ingredients } = this.props;
     
     const transformedIngredients = Object.keys(ingredients)
@@ -38,4 +41,4 @@ class Burger extends Component {
   }
 }
 
-export default Burger;
+export default withRouter(Burger);

@@ -20,14 +20,14 @@ function checkoutSummary(props) {
         
         <Button
           btnType="Danger"
-          clicked
+          clicked={() => {}}
         >
           CANCEL
         </Button>
 
         <Button
           btnType="Success"
-          clicked
+          clicked={() => {}}
         >
           CONTINUE
         </Button>
