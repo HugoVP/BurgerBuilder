@@ -17,15 +17,13 @@ class Burger extends Component {
   };
 
   render() {
-    console.log(this.props);
-
     const { ingredients } = this.props;
     
     const transformedIngredients = Object.keys(ingredients)
       .map(ingredientKey => [...Array(ingredients[ingredientKey])]
         .map((_, index) => (
           <BurgerIngredient
-            key={ingredientKey + index}
+            key={`${ingredientKey}${index}`}
             type={ingredientKey}
           />
         ))

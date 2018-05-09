@@ -5,7 +5,11 @@ import classes from './CheckoutSummary.css'
 import Burger from '../../Burger/Burger';
 import Button from '../../UI/Button/Button';
 
-function checkoutSummary(props) {
+function checkoutSummary({
+  ingredients,
+  checkoutCancelled,
+  checkoutContinue,
+}) {
   return (
     <div className={classes.CheckoutSummary}>
       <h1>We hope it tastes well</h1>
@@ -16,18 +20,18 @@ function checkoutSummary(props) {
           margin: 'auto',
         }}
       >
-        <Burger ingredients={props.ingredients} />
+        <Burger ingredients={ingredients} />
         
         <Button
           btnType="Danger"
-          clicked={() => {}}
+          clicked={checkoutCancelled}
         >
           CANCEL
         </Button>
 
         <Button
           btnType="Success"
-          clicked={() => {}}
+          clicked={checkoutContinue}
         >
           CONTINUE
         </Button>
