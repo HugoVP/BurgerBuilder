@@ -19,8 +19,16 @@ function withErrorHandler(WrappedComponent, axios) {
       });
 
       this.responseInterceptor = axios.interceptors.response.use(
-        response => response,
-        error => this.setState({error})
+        res => {
+          console.log(res);
+          
+          return res;
+        },
+        error => {
+          console.log(error);
+          
+          this.setState({error})
+        }
       );
     }
 
@@ -30,17 +38,21 @@ function withErrorHandler(WrappedComponent, axios) {
     }
 
     render() {
-      const errorMessage = this.state.error ?
-        this.state.error.message : 'Something went wrong!';
-      
+      let message = '';
+
+      if (this.state.error) {
+        message = this.state.error.message;
+      }
+
       return (
         <Aux>
           <Modal
             show={this.state.error}
             modalClosed={this.errorConfirmedHandler}
           >
-            {errorMessage}
+            { message }
           </Modal>
+          
           <WrappedComponent {...this.props} />
         </Aux>
       );

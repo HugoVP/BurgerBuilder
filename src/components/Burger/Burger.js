@@ -19,7 +19,7 @@ class Burger extends Component {
   render() {
     const { ingredients } = this.props;
     
-    const transformedIngredients = Object.keys(ingredients)
+    let transformedIngredients = Object.keys(ingredients)
       .map(ingredientKey => [...Array(ingredients[ingredientKey])]
         .map((_, index) => (
           <BurgerIngredient
@@ -27,12 +27,17 @@ class Burger extends Component {
             type={ingredientKey}
           />
         ))
-      );
+      )
+      .reduce((arr, el) => arr.concat(el), []);
+    
+    if (transformedIngredients.length <= 0) {
+      transformedIngredients = <p>Please start adding ingredients!</p>;
+    }
 
     return (
       <div className={classes.Burger}>
         <BurgerIngredient type="bread-top" />
-        {transformedIngredients }
+        {transformedIngredients}
         <BurgerIngredient type="bread-bottom" />
       </div>
     );

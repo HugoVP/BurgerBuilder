@@ -1,12 +1,13 @@
-import React from 'react';
+import React from 'react'
 import {
   Route,
   Switch
-} from 'react-router-dom';
+} from 'react-router-dom'
 
-import Layout from './hoc/Layout/Layout';
-import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import Checkout from './containers/Checkout/Checkout';
+import Layout from './hoc/Layout/Layout'
+import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
+import Checkout from './containers/Checkout/Checkout'
+import Orders from './containers/Orders/Orders'
 
 function app() {
   return (
@@ -15,6 +16,11 @@ function app() {
         <Route
           path="/checkout"
           component={Checkout}
+        />
+
+        <Route
+          path="/orders"
+          component={Orders}
         />
 
         <Route
@@ -27,4 +33,4 @@ function app() {
   );
 }
 
-export default app;
+export default app
