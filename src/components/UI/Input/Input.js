@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import classes from './Input.css'
 
@@ -9,6 +10,9 @@ function input({
   value,
 }) {
   let inputElement;
+
+  console.log(elementConfig);
+  
   
   switch (elementType) {
     case ('input'): {
@@ -76,6 +80,39 @@ function input({
       {inputElement}
     </div>
   );
+}
+
+const {
+  string,
+  oneOf,
+  oneOfType,
+  shape,
+  arrayOf,
+} = PropTypes;
+
+const elementConfigTypeInput = shape({
+  type: oneOf([
+    'text',
+    'email',
+  ]).isRequired,
+  placeholder: string.isRequired,
+});
+
+const elementConfigTypeSelect = shape({
+  options: arrayOf(
+    shape({
+      value: string.isRequired,
+      displayValue: string.isRequired,
+    }),
+  ).isRequired,
+});
+
+input.propTypes = {
+  elementType: string.isRequired,
+  elementConfig: oneOfType([
+    elementConfigTypeInput,
+    elementConfigTypeSelect,
+  ]).isRequired,
 }
 
 export default input
