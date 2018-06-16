@@ -2,16 +2,21 @@ import React from 'react'
 
 import classes from './Input.css'
 
-function input(props) {
+function input({
+  elementType,
+  elementConfig,
+  label,
+  value,
+}) {
   let inputElement;
   
-  switch (props.elementType) {
+  switch (elementType) {
     case ('input'): {
       inputElement = (
         <input
           className={classes.InputElement}
-          value={props.value}
-          {...props.elementConfig}
+          value={value}
+          {...elementConfig}
         />
       );
       
@@ -22,11 +27,33 @@ function input(props) {
       inputElement = (
         <textarea
           className={classes.InputElement}
-          value={props.value}
-          {...props.elementConfig}
+          value={value}
+          {...elementConfig}
         />
       );
       
+      break;
+    }
+
+    case ('select'): {
+      inputElement = (
+        <select
+          className={classes.InputElement}
+          value={value}
+        >
+          {
+            elementConfig.options.map(({value, displayValue}) => (
+              <option
+                key={value}
+                value={value}
+              >
+                {displayValue}
+              </option>
+            ))
+          }
+        </select>
+      );
+
       break;
     }
 
@@ -34,8 +61,8 @@ function input(props) {
       inputElement = (
         <input
           className={classes.InputElement}
-          value={props.value}
-          {...props.elementConfig}
+          value={value}
+          {...elementConfig}
         />
       );
     }
@@ -44,7 +71,7 @@ function input(props) {
   return (
     <div className={classes.Input}>
       <label className={classes.Label}>
-        {props.label}
+        {label}
       </label>
       {inputElement}
     </div>
