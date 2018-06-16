@@ -8,10 +8,10 @@ import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 class Burger extends Component {
   static propTypes = {
     ingredients: PropTypes.shape({
-      salad: PropTypes.number.isRequired,
-      bacon: PropTypes.number.isRequired,
-      cheese: PropTypes.number.isRequired,
-      meat: PropTypes.number.isRequired,
+      salad: PropTypes.number,
+      bacon: PropTypes.number,
+      cheese: PropTypes.number,
+      meat: PropTypes.number,
     })
     .isRequired,
   };
