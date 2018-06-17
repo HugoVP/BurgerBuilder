@@ -8,11 +8,9 @@ function input({
   elementConfig,
   label,
   value,
+  changed,
 }) {
   let inputElement;
-
-  console.log(elementConfig);
-  
   
   switch (elementType) {
     case ('input'): {
@@ -20,6 +18,7 @@ function input({
         <input
           className={classes.InputElement}
           value={value}
+          onChange={changed}
           {...elementConfig}
         />
       );
@@ -32,6 +31,7 @@ function input({
         <textarea
           className={classes.InputElement}
           value={value}
+          onChange={changed}
           {...elementConfig}
         />
       );
@@ -44,6 +44,7 @@ function input({
         <select
           className={classes.InputElement}
           value={value}
+          onChange={changed}
         >
           {
             elementConfig.options.map(({value, displayValue}) => (
@@ -66,6 +67,7 @@ function input({
         <input
           className={classes.InputElement}
           value={value}
+          onChange={changed}
           {...elementConfig}
         />
       );
@@ -82,37 +84,32 @@ function input({
   );
 }
 
-const {
-  string,
-  oneOf,
-  oneOfType,
-  shape,
-  arrayOf,
-} = PropTypes;
-
-const elementConfigTypeInput = shape({
-  type: oneOf([
+const elementConfigTypeInput = PropTypes.shape({
+  type: PropTypes.oneOf([
     'text',
     'email',
   ]).isRequired,
-  placeholder: string.isRequired,
+  placeholder: PropTypes.string.isRequired,
 });
 
-const elementConfigTypeSelect = shape({
-  options: arrayOf(
-    shape({
-      value: string.isRequired,
-      displayValue: string.isRequired,
+const elementConfigTypeSelect = PropTypes.shape({
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      displayValue: PropTypes.string.isRequired,
     }),
   ).isRequired,
 });
 
 input.propTypes = {
-  elementType: string.isRequired,
-  elementConfig: oneOfType([
+  elementType: PropTypes.string.isRequired,
+  elementConfig: PropTypes.oneOfType([
     elementConfigTypeInput,
     elementConfigTypeSelect,
   ]).isRequired,
+  label: PropTypes.string,
+  value: PropTypes.any.isRequired,
+  changed: PropTypes.func.isRequired,
 }
 
 export default input

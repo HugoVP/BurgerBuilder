@@ -95,6 +95,21 @@ class ContactData extends Component {
       });
   }
 
+  inputChagedHandler = (event, inputId) => {
+    const updatedOrderForm = {
+      ...this.state.orderForm,
+    };
+
+    const updatedFormElement = {
+      ...updatedOrderForm[inputId],
+    };
+
+    updatedFormElement.value = event.target.value;
+    updatedOrderForm[inputId] = updatedFormElement;
+
+    this.setState({orderForm: updatedOrderForm});
+  }
+
   render () {
     const { orderForm } = this.state;
 
@@ -116,6 +131,7 @@ class ContactData extends Component {
                 elementType={config.elementType}
                 elementConfig={config.elementConfig}
                 value={config.value}
+                changed={event => this.inputChagedHandler(event, id)}
               />
             ))
           }
