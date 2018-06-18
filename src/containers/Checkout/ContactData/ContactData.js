@@ -17,6 +17,11 @@ class ContactData extends Component {
           placeholder: 'Your Name'
         },
         value: '',
+        validation: {
+          required: true,
+        },
+        isValid: false,
+        touched: false,
       },
       street: {
         elementType: 'input',
@@ -25,6 +30,11 @@ class ContactData extends Component {
           placeholder: 'Your Street'
         },
         value: '',
+        validation: {
+          required: true,
+        },
+        isValid: false,
+        touched: false,
       },
       zipCode: {
         elementType: 'input',
@@ -33,6 +43,13 @@ class ContactData extends Component {
           placeholder: 'Your ZIP Code'
         },
         value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 5,
+        },
+        isValid: false,
+        touched: false,
       },
       country: {
         elementType: 'input',
@@ -41,6 +58,11 @@ class ContactData extends Component {
           placeholder: 'Your Country'
         },
         value: '',
+        validation: {
+          required: true,
+        },
+        isValid: false,
+        touched: false,
       },
       email: {
         elementType: 'input',
@@ -49,6 +71,11 @@ class ContactData extends Component {
           placeholder: 'Your Email'
         },
         value: '',
+        validation: {
+          required: true,
+        },
+        isValid: false,
+        touched: false,
       },
 
       deliveryMethod: {
@@ -66,8 +93,10 @@ class ContactData extends Component {
           ],
         },
         value: '',
+        isValid: true,
       },
     },
+    formIsValid: false,
     loading: false,
   }
 
@@ -81,18 +110,34 @@ class ContactData extends Component {
     };
 
     axios.post('/orders.json', order)
-      .then((response) => {
-        console.log(response);
-        this.props.history.push('/');
-        return response;
+      .then(() => {
+        this.props.history.push('/')
       })
       .catch((error) => {
-        console.log(error);
-        return error;
+        console.log(error)
       })
       .finally(() => {
         this.setState({loading: false})
       });
+  }
+
+  checkValidity(value, rules = {}) {
+    /* Return 'false' if value is empty,  */
+    if (rules.required && value.trim() === '') {
+      return false;
+    }
+
+    /* Return 'false' if value's length is lower than minLength */ 
+    if (rules.minLength && value.length < rules.minLength) {
+      return false;
+    }
+
+    /* Return 'false' if value's length is grater than maxLength */
+    if (rules.maxLength && value.length > rules.maxLength) {
+      return false;
+    }
+
+    return true;
   }
 
   inputChagedHandler = (event, inputId) => {
@@ -105,9 +150,25 @@ class ContactData extends Component {
     };
 
     updatedFormElement.value = event.target.value;
+    const { value, validation } = updatedFormElement;
+    updatedFormElement.isValid = this.checkValidity(value, validation);
+    updatedFormElement.touched = true;
     updatedOrderForm[inputId] = updatedFormElement;
+    
+    let formIsValid = true;
 
-    this.setState({orderForm: updatedOrderForm});
+    /* Check validity for the complete form */ 
+    for (let inputId in updatedOrderForm) {
+      if (!updatedOrderForm[inputId].isValid) {
+        formIsValid = false;
+        break;
+      }
+    }
+    
+    this.setState({
+      orderForm: updatedOrderForm,
+      formIsValid,
+    });
   }
 
   render () {
@@ -131,6 +192,9 @@ class ContactData extends Component {
                 elementType={config.elementType}
                 elementConfig={config.elementConfig}
                 value={config.value}
+                shouldValidate={'validation' in config}
+                invalid={!config.isValid}
+                touched={config.touched}
                 changed={event => this.inputChagedHandler(event, id)}
               />
             ))
@@ -139,6 +203,7 @@ class ContactData extends Component {
           <Button
             btnType="Success"
             clicked={this.orderHandler}
+            disabled={!this.state.formIsValid}
           >
             ORDER
           </Button>

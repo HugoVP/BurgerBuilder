@@ -8,15 +8,29 @@ function input({
   elementConfig,
   label,
   value,
+  touched,
+  shouldValidate,
+  invalid,
   changed,
 }) {
   let inputElement;
+  let inputClasses = classes.InputElement;
+  let validationError;
+
+  if (touched && shouldValidate && invalid) {
+    inputClasses+= ` ${classes.Invalid}`;
+    validationError = (
+      <p className={classes.ValidationError}>
+        Please enter a valid value!
+      </p>
+    );
+  }
   
   switch (elementType) {
     case ('input'): {
       inputElement = (
         <input
-          className={classes.InputElement}
+          className={inputClasses}
           value={value}
           onChange={changed}
           {...elementConfig}
@@ -29,7 +43,7 @@ function input({
     case ('textarea'): {
       inputElement = (
         <textarea
-          className={classes.InputElement}
+          className={inputClasses}
           value={value}
           onChange={changed}
           {...elementConfig}
@@ -42,7 +56,7 @@ function input({
     case ('select'): {
       inputElement = (
         <select
-          className={classes.InputElement}
+          className={inputClasses}
           value={value}
           onChange={changed}
         >
@@ -65,7 +79,7 @@ function input({
     default: {
       inputElement = (
         <input
-          className={classes.InputElement}
+          className={inputClasses}
           value={value}
           onChange={changed}
           {...elementConfig}
@@ -80,6 +94,7 @@ function input({
         {label}
       </label>
       {inputElement}
+      {validationError}
     </div>
   );
 }
