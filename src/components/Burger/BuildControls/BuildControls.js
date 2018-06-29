@@ -27,17 +27,19 @@ function buildControls(props) {
     return (
         <div className={classes.BuildControls}>
             <p>Current Price: <strong>{props.price.toFixed(2)}</strong></p>
+            
             {
-                controls.map((control) => (
+                controls.map(({label, type}) => (
                     <BuildControl
-                        key={control.label}
-                        label={control.label}
-                        added={() => props.ingredientAdded(control.type)}
-                        removed={() => props.ingredientRemoved(control.type)}
-                        disabled={props.disabled[control.type]} 
+                        key={label}
+                        label={label}
+                        added={() => props.ingredientAdded(type)}
+                        removed={() => props.ingredientRemoved(type)}
+                        disabled={props.disabled[type]} 
                     />
                 ))
             }
+            
             <button
                 className={classes.OrderButton}
                 disabled={!props.purchasable}
@@ -52,13 +54,6 @@ function buildControls(props) {
 buildControls.propTypes = {
     price: PropTypes.number.isRequired,
     purchasable: PropTypes.bool.isRequired,
-    // disabled: PropTypes.shape({
-    //     salad: PropTypes.bool.isRequired,
-    //     bacon: PropTypes.bool.isRequired,
-    //     cheese: PropTypes.bool.isRequired,
-    //     meat: PropTypes.bool.isRequired,
-    // })
-    // .isRequired,
     ordered: PropTypes.func.isRequired,
     ingredientAdded: PropTypes.func.isRequired,
     ingredientRemoved: PropTypes.func.isRequired,
