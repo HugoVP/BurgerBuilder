@@ -2,7 +2,7 @@ import React from 'react'
 
 import classes from './Order.css'
 
-function order({ingredients, price}) {
+function order({ingredients = {}, price}) {
   const ingredientsOutput = Object.keys(ingredients)
     .map((key) => (
       <span

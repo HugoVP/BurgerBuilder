@@ -11,19 +11,20 @@ class Orders extends Component {
   }
   
   componentDidMount() {
+    this.setState({loading: true});
+    
     axios.get('/orders.json')
       .then(({ data }) => {
         const orders = Object.keys(data).map((key) => ({
           id: key,
           ...data[key],
         }));
-
         this.setState({orders});
       })
-      .catch(a => {
-        console.log(a);
-      })
-      .finally(() => this.setState({loading: false}));
+      .catch(err => console.log(err))
+      .finally(() => {
+        this.setState({loading: false})
+      });
   }
   
   render() {
