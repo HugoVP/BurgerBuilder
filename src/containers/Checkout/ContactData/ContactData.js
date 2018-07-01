@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from '../../../axios-orders'
+import { connect } from 'react-redux'
 
 import classes from './ContactData.css'
 
@@ -106,7 +107,7 @@ class ContactData extends Component {
 
     const order = {
       ingredients: this.props.ingredients,
-      price: this.props.price,
+      price: this.props.totalPrice,
     };
 
     axios.post('/orders.json', order)
@@ -220,4 +221,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData
+function mapStateToProps({ingredients, totalPrice}) {
+  return {
+    ingredients,
+    totalPrice,
+  };
+}
+
+export default connect(mapStateToProps)(ContactData)

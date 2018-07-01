@@ -14,18 +14,19 @@ import * as actionTypes from '../../store/actions'
 
 class BurgerBuilder extends Component {
   state = {
-    purchasable: false,
     purchasing: false,
     loading: false,
     error: false,
   };
 
-  updatePurchaseState(ingredients) {
+  isPurchasable = () => {
+    const { ingredients } = this.props;
+    
     const sum = Object.keys(ingredients)
       .map(key => ingredients[key])
       .reduce((sum, el) => sum + el, 0);
-
-    this.setState({purchasable: sum > 0});
+      
+    return sum > 0;
   }
 
   purchaseHandler = () => {
@@ -37,29 +38,15 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinuedHandler = () => {
-    const {
-      ingredients,
-      totalPrice,
-    } = this.state;
-    
-    const queryParams = Object.keys(ingredients).map((i) => (
-      `${encodeURIComponent(i)}=${encodeURIComponent(this.props.ingredients[i])}`
-    ));
-
-    queryParams.push(`price=${totalPrice}`);
-
-    const queryString = queryParams.join('&');
-
-    this.props.history.push({
-      pathname: '/checkout',
-      search: `?${queryString}`,
-    });
+    this.props.history.push('/checkout');
   };
 
   componentDidMount() {
-    axios.get('/ingredients.json')
-      .then(({data}) => this.setState({ingredients: data}))
-      .catch(error => this.setState({error}));
+    console.log(this.props);
+    
+    // axios.get('/ingredients.json')
+    //   .then(({data}) => this.setState({ingredients: data}))
+    //   .catch(error => this.setState({error}));
   }
 
   render() {
@@ -103,7 +90,7 @@ class BurgerBuilder extends Component {
           ingredientAdded={this.props.onIngredientAdded}
           ingredientRemoved={this.props.onIngredientRemoved}
           disabled={disabledInfo}
-          purchasable={this.state.purchasable}
+          purchasable={this.isPurchasable()}
           ordered={this.purchaseHandler}
           price={this.props.totalPrice}
         />
