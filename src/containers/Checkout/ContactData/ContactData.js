@@ -6,7 +6,7 @@ import classes from './ContactData.css'
 
 import Button from '../../../components/UI/Button/Button'
 import Spinner from '../../../components/UI/Spinner/Spinner'
-import Input from '../../../components/UI/Input/Input';
+import Input from '../../../components/UI/Input/Input'
 
 class ContactData extends Component {
   state = {
@@ -103,6 +103,7 @@ class ContactData extends Component {
 
   orderHandler = (event) => {
     event.preventDefault();
+    
     this.setState({loading: true});
 
     const order = {

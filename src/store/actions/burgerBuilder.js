@@ -1,0 +1,43 @@
+ import * as actionTypes from './actionTypes'
+ import axios from '../../axios-orders'
+
+ export function addIngredient(ingredientName) {
+  return {
+    type: actionTypes.ADD_INGREDIENT,
+    ingredientName,
+  }; 
+ }
+
+ export function removeIngredient(ingredientName) {
+   return {
+     type: actionTypes.REMOVE_INGREDIENT,
+     ingredientName,
+   };
+ }
+
+ export function setIngredients(ingredients) {
+  return {
+    type: actionTypes.SET_INGREDIENTS,
+    ingredients,
+  };
+ }
+
+ export function asyncSetIngredients() {
+   return (dispatch) => {
+    axios.get('/ingredients.json')
+      .then((response) => {
+        dispatch(setIngredients(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(fetchIngredientsFailed(error));
+      });
+   };
+ }
+
+ export function fetchIngredientsFailed(error) {
+   return {
+    type: actionTypes.FETCH_INGREDIENTS_FAILED,
+    error,
+   };
+ }
