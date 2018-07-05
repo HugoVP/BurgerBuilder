@@ -6,4 +6,9 @@ export {
   fetchIngredientsFailed,
 } from './burgerBuilder'
 
-export { } from './orders'
+export {
+  purchaseBurger,
+  purchaseBurgerSuccess,
+  purchaseBurgerFail,
+  purchaseBurgerStart,
+} from './orders'

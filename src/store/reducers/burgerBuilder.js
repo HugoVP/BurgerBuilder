@@ -13,7 +13,7 @@ const initState = {
   error: false,
 };
 
-function reducer(state = initState, action) {
+function burgerBuilderReducer(state = initState, action) {
   switch (action.type) {
     case (actionTypes.ADD_INGREDIENT): {
       return {
@@ -70,4 +70,4 @@ function reducer(state = initState, action) {
   }
 }
 
-export default reducer
+export default burgerBuilderReducer

@@ -16,12 +16,15 @@ class Orders extends Component {
     axios.get('/orders.json')
       .then(({ data }) => {
         const orders = Object.keys(data).map((key) => ({
-          id: key,
           ...data[key],
+          id: key,
         }));
+        
         this.setState({orders});
       })
-      .catch(err => console.log(err))
+      .catch((error) => {
+        console.log(error);
+      })
       .finally(() => {
         this.setState({loading: false})
       });
