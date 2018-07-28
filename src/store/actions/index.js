@@ -12,4 +12,5 @@ export {
   purchaseBurgerFail,
   purchaseBurgerStart,
   purchaseInit,
+  fetchOrders,
 } from './orders'

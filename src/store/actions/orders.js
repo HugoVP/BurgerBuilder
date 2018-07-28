@@ -42,3 +42,42 @@ export function purchaseInit() {
     type: actionTypes.PURCHASE_INIT,
   };
 }
+
+export function fetchOrdersSuccess(orders) {
+  return {
+    type: actionTypes.FETCH_ORDERS_SUCCESS,
+    orders,
+  };
+}
+
+export function fetchOrderFail(error) {
+  return {
+    type: actionTypes.FETCH_ORDERS_FAIL,
+    error,
+  };
+}
+
+export function fetchOrderStart() {
+  return {
+    type: actionTypes.FETCH_ORDERS_START,
+  };
+}
+
+export function fetchOrders() {
+  return (dispatch) => {
+    dispatch(fetchOrderStart());
+
+    axios.get('/orders.json')
+      .then(({ data }) => {
+        const orders = Object.keys(data).map((key) => ({
+          ...data[key],
+          id: key,
+        }));
+        
+        dispatch(fetchOrdersSuccess(orders));
+      })
+      .catch((error) => {
+        dispatch(fetchOrderFail(error));
+      });
+  };
+}
