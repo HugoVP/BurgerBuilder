@@ -15,9 +15,9 @@ class Checkout extends Component {
   }
   
   render() {
-    const { ingredients } = this.props;
+    const { ingredients, purchased } = this.props;
 
-    if (!ingredients) {
+    if (purchased || !ingredients) {
       return <Redirect to='/' />;
     }
 
@@ -41,6 +41,7 @@ class Checkout extends Component {
 function mapStateToProps(state) {
   return {
     ingredients: state.burgerBuilder.ingredients,
+    purchased: state.orders.purchased,
   };
 }
 

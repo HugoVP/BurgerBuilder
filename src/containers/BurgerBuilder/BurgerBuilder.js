@@ -15,6 +15,7 @@ import {
   addIngredient,
   removeIngredient,
   asyncSetIngredients,
+  purchaseInit,
 } from '../../store/actions'
 
 class BurgerBuilder extends Component {
@@ -41,6 +42,7 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinuedHandler = () => {
+    this.props.onInitPurchase();
     this.props.history.push('/checkout');
   };
 
@@ -121,6 +123,9 @@ function mapDispatchToProps(dispatch) {
     },
     onSetIngredients: () => {
       dispatch(asyncSetIngredients());
+    },
+    onInitPurchase: () => {
+      dispatch(purchaseInit());
     },
   };
 }

@@ -53,6 +53,7 @@ function burgerBuilderReducer(state = initState, action) {
           cheese,
           meat,
         },
+        totalPrice: initState.totalPrice,
         error: null,
       };
     }
