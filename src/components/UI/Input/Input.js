@@ -103,6 +103,7 @@ const elementConfigTypeInput = PropTypes.shape({
   type: PropTypes.oneOf([
     'text',
     'email',
+    'password',
   ]).isRequired,
   placeholder: PropTypes.string.isRequired,
 });

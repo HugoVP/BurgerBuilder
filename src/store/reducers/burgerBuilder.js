@@ -38,20 +38,13 @@ function burgerBuilderReducer(state = initState, action) {
     }
 
     case (actionTypes.SET_INGREDIENTS): {
-      const {
-        salad,
-        bacon,
-        cheese,
-        meat,
-      } = action.ingredients;
-      
       return {
         ...state,
         ingredients: {
-          salad,
-          bacon,
-          cheese,
-          meat,
+          salad: action.ingredients.salad,
+          bacon: action.ingredients.bacon,
+          cheese: action.ingredients.cheese,
+          meat: action.ingredients.meat,
         },
         totalPrice: initState.totalPrice,
         error: null,

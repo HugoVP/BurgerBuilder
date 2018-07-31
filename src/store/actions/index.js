@@ -7,10 +7,11 @@ export {
 } from './burgerBuilder'
 
 export {
-  purchaseBurger,
-  purchaseBurgerSuccess,
-  purchaseBurgerFail,
-  purchaseBurgerStart,
   purchaseInit,
+  purchaseBurger,
   fetchOrders,
 } from './orders'
+
+export {
+  auth,
+} from './auth'
