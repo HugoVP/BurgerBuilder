@@ -3,7 +3,30 @@ import React from 'react';
 import classes from './NavigationItems.css';
 import NavigationItem from './NavigationItem/NavigationItem';
 
-function navigationItems() {
+function navigationItems({isAuthenticated}) {
+  let ordersNavigationItem;
+  let authNavigationItem;
+
+  if (isAuthenticated) {
+    ordersNavigationItem = (
+      <NavigationItem link="/orders">
+        Orders
+      </NavigationItem>
+    );
+
+    authNavigationItem = (
+      <NavigationItem link="/logout">
+        Logout
+      </NavigationItem>
+    );
+  } else {
+    authNavigationItem = (
+      <NavigationItem link="/auth">
+        Authenticate
+      </NavigationItem>  
+    );
+  }
+  
   return (
     <ul className={classes.NavigationItems}>
       <NavigationItem
@@ -12,14 +35,9 @@ function navigationItems() {
       >
         Burger Builder
       </NavigationItem>
-      
-      <NavigationItem link="/orders">
-        Orders
-      </NavigationItem>
 
-      <NavigationItem link="/auth">
-        Auth
-      </NavigationItem>
+      {ordersNavigationItem}
+      {authNavigationItem}
     </ul>
   );
 }

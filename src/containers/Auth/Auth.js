@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 import classes from './Auth.css'
 import { auth } from '../../store/actions';
@@ -70,10 +72,7 @@ class Auth extends Component {
       const pattern = /^\d+$/;
       isValid = pattern.test(value) && isValid
     }
-
-    console.log(isValid);
     
-
     return isValid;
   }
 
@@ -107,6 +106,14 @@ class Auth extends Component {
   }
 
   render () {
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/" />;
+    }
+
+    if (this.props.loading) {
+      return <Spinner />;
+    }
+
     const { controls } = this.state;
 
     const formInputElements = Object.keys(controls)
@@ -126,11 +133,19 @@ class Auth extends Component {
           />
         )
       });
-    
+
+    let errorMessage = null;
+
+    if (this.props.error) {
+      errorMessage = <p>{this.props.error.message}</p>;
+    }
+
     return (
       <div className={classes.Auth}>
         <form onSubmit={this.submitHandler}>
+          {errorMessage}
           {formInputElements}
+          
           <Button
             btnType="Success"
             clicked={() => {}}
@@ -151,6 +166,14 @@ class Auth extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     onAuth: (email, password, isSignup) => {
@@ -159,4 +182,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Auth)
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)

@@ -119,7 +119,7 @@ class ContactData extends Component {
       formData,
     };    
 
-    this.props.onPurchaseBurger(orderData)
+    this.props.onPurchaseBurger(orderData, this.props.token)
   }
 
   checkValidity(value, rules = {}) {
@@ -221,18 +221,19 @@ class ContactData extends Component {
   }
 }
 
-function mapStateToProps({burgerBuilder, orders}) {
+function mapStateToProps({burgerBuilder, orders, auth}) {
   return {
     ingredients: burgerBuilder.ingredients,
     totalPrice: burgerBuilder.totalPrice,
     loading: orders.loading,
+    token: auth.token,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onPurchaseBurger: (orderData) => {
-      dispatch(purchaseBurger(orderData));
+    onPurchaseBurger: (orderData, token) => {
+      dispatch(purchaseBurger(orderData, token));
     },
   };
 }

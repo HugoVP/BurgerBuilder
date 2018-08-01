@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Aux from '../Aux/Aux';
 import classes from './Layout.css';
@@ -7,25 +8,36 @@ import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class Layout extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
   state = {
     showSideDrawer: false,
-  }
+  };
 
   sideDrawerClosedHandler = () => {
     this.setState({showSideDrawer: false});
-  }
+  };
 
   sideDrawerToggleHandler = () => {
     this.setState((prevState) => ({showSideDrawer: !prevState.showSideDrawer}));
-  }
+  };
 
   render() {
     return (
       <Aux>
-        <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
+        <Toolbar
+          isAuthenticated={this.props.isAuthenticated}
+          drawerToggleClicked={this.sideDrawerToggleHandler}
+        />
+        
         <SideDrawer
+          isAuthenticated={this.props.isAuthenticated}
           open={this.state.showSideDrawer}
-          closed={this.sideDrawerClosedHandler} />
+          closed={this.sideDrawerClosedHandler}
+        />
+        
         <main className={classes.Content}>
           {this.props.children}
         </main>
@@ -34,8 +46,10 @@ class Layout extends Component {
   }
 }
 
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.auth.token !== null,
+  };
 }
 
-export default Layout;
+export default connect(mapStateToProps)(Layout);

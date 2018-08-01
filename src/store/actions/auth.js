@@ -9,10 +9,11 @@ export function authStart() {
   };
 }
 
-export function authSuccess(authData) {
+export function authSuccess(idToken, userId) {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    authData,
+    idToken,
+    userId,
   };
 }
 
@@ -22,6 +23,21 @@ export function authFail(error) {
     error,
   };
 }
+
+export function logout() {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  }
+}
+
+export function checkAuthTimeout(expirationTime) {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(logout());
+    }, expirationTime * 1000);
+  };
+}
+
 
 export function auth(email, password, isSignup) {
   return (dispatch) => {
@@ -38,11 +54,12 @@ export function auth(email, password, isSignup) {
     axios.post(url, authData)
       .then((response) => {
         console.log(response);
-        dispatch(authSuccess(response.data))
+        
+        dispatch(authSuccess(response.data.idToken, response.data.localId));
+        dispatch(checkAuthTimeout(response.data.expiresIn));
       })
-      .catch((error) => {
-        console.log(error);
-        dispatch(authFail(error))
+      .catch((err) => {
+        dispatch(authFail(err.response.data.error))
       });
   };
 }

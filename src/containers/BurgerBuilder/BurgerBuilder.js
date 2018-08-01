@@ -23,7 +23,7 @@ class BurgerBuilder extends Component {
     purchasing: false,
   }
   
-  isPurchasable = () => {
+  isPurchasable() {
     const { ingredients } = this.props;
     
     const sum = Object.keys(ingredients)
@@ -93,6 +93,7 @@ class BurgerBuilder extends Component {
           purchasable={this.isPurchasable()}
           ordered={this.purchaseHandler}
           price={this.props.totalPrice}
+          isAuthenticated={this.props.isAuthenticated}
         />
       </Aux>
     )
@@ -104,6 +105,7 @@ function mapStateToProps(state) {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
     error: state.burgerBuilder.error,
+    isAuthenticated: state.auth.token !== null,
   };
 }
 
