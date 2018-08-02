@@ -25,8 +25,9 @@ export function purchaseBurgerStart() {
 export function purchaseBurger(orderData, token) {
   return (dispatch) => {
     dispatch(purchaseBurgerStart());
+    const queryParams = `auth=${token}`;
     
-    axios.post(`/orders.json?auth=${token}`, orderData)
+    axios.post(`/orders.json?${queryParams}`, orderData)
       .then(({data}) => {
         console.log(orderData);
         dispatch(purchaseBurgerSuccess(data.name, orderData))
@@ -50,7 +51,7 @@ export function fetchOrdersSuccess(orders) {
   };
 }
 
-export function fetchOrderFail(error) {
+export function fetchOrdersFail(error) {
   return {
     type: actionTypes.FETCH_ORDERS_FAIL,
     error,
@@ -63,11 +64,12 @@ export function fetchOrderStart() {
   };
 }
 
-export function fetchOrders(token) {
+export function fetchOrders(token, userId) {
   return (dispatch) => {
     dispatch(fetchOrderStart());
+    const queryParams = `auth=${token}&orderBy="userId"&equalTo="${userId}"`;
 
-    axios.get(`/orders.json?auth=${token}`)
+    axios.get(`/orders.json?${queryParams}`)
       .then(({ data }) => {
         const orders = Object.keys(data).map((key) => ({
           ...data[key],
@@ -77,7 +79,7 @@ export function fetchOrders(token) {
         dispatch(fetchOrdersSuccess(orders));
       })
       .catch((error) => {
-        dispatch(fetchOrderFail(error));
+        dispatch(fetchOrdersFail(error));
       });
   };
 }
