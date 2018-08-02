@@ -7,7 +7,7 @@ import Button from '../../components/UI/Button/Button'
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 import classes from './Auth.css'
-import { auth } from '../../store/actions';
+import { auth, setAuthRedirectPath } from '../../store/actions';
 
 class Auth extends Component {
   state = {
@@ -105,9 +105,15 @@ class Auth extends Component {
     }));
   }
 
+  componentDidMount () {
+    if (!this.props.buildingBurger && this.props.authRedirectPath !== '/') {
+      this.props.onSetAuthRedirectPath();
+    }
+  }  
+
   render () {
     if (this.props.isAuthenticated) {
-      return <Redirect to="/" />;
+      return <Redirect to={this.props.authRedirectPath} />;
     }
 
     if (this.props.loading) {
@@ -171,6 +177,8 @@ function mapStateToProps(state) {
     loading: state.auth.loading,
     error: state.auth.error,
     isAuthenticated: state.auth.token !== null,
+    buildingBurger: state.burgerBuilder.building,
+    authRedirectPath: state.auth.authRedirectPath,
   };
 }
 
@@ -178,6 +186,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onAuth: (email, password, isSignup) => {
       dispatch(auth(email, password, isSignup));
+    },
+    onSetAuthRedirectPath: () => {
+      dispatch(setAuthRedirectPath('/'));
     },
   };
 }

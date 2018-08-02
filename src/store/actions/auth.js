@@ -63,3 +63,10 @@ export function auth(email, password, isSignup) {
       });
   };
 }
+
+export function setAuthRedirectPath(authRedirectPath) {
+  return {
+    type: actionTypes.SET_AUTH_REDIRECT_PATH,
+    authRedirectPath,
+  };
+}

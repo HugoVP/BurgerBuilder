@@ -11,6 +11,7 @@ const initState = {
   ingredients: null,
   totalPrice: 4,
   error: false,
+  building: false,
 };
 
 function burgerBuilderReducer(state = initState, action) {
@@ -23,6 +24,7 @@ function burgerBuilderReducer(state = initState, action) {
           [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
         },
         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+        building: true,
       };
     }
 
@@ -34,6 +36,7 @@ function burgerBuilderReducer(state = initState, action) {
           [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
         },
         totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+        building: true,
       };
     }
 
@@ -48,6 +51,7 @@ function burgerBuilderReducer(state = initState, action) {
         },
         totalPrice: initState.totalPrice,
         error: null,
+        building: false,
       };
     }
 
