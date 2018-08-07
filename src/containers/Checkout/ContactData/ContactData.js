@@ -11,6 +11,7 @@ import Input from '../../../components/UI/Input/Input'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 
 import { purchaseBurger } from '../../../store/actions'
+import { checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
   state = {
@@ -52,6 +53,7 @@ class ContactData extends Component {
           required: true,
           minLength: 5,
           maxLength: 5,
+          isNumeric: true,
         },
         isValid: false,
         touched: false,
@@ -78,6 +80,7 @@ class ContactData extends Component {
         value: '',
         validation: {
           required: true,
+          isEmail: true,
         },
         isValid: false,
         touched: false,
@@ -123,25 +126,6 @@ class ContactData extends Component {
     this.props.onPurchaseBurger(orderData, this.props.token)
   }
 
-  checkValidity(value, rules = {}) {
-    /* Return 'false' if value is empty,  */
-    if (rules.required && value.trim() === '') {
-      return false;
-    }
-
-    /* Return 'false' if value's length is lower than minLength */ 
-    if (rules.minLength && value.length < rules.minLength) {
-      return false;
-    }
-
-    /* Return 'false' if value's length is grater than maxLength */
-    if (rules.maxLength && value.length > rules.maxLength) {
-      return false;
-    }
-
-    return true;
-  }
-
   inputChagedHandler = (event, inputId) => {
     const updatedOrderForm = {
       ...this.state.orderForm,
@@ -153,7 +137,7 @@ class ContactData extends Component {
 
     updatedFormElement.value = event.target.value;
     const { value, validation } = updatedFormElement;
-    updatedFormElement.isValid = this.checkValidity(value, validation);
+    updatedFormElement.isValid = checkValidity(value, validation);
     updatedFormElement.touched = true;
     updatedOrderForm[inputId] = updatedFormElement;
     

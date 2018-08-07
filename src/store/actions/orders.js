@@ -29,7 +29,6 @@ export function purchaseBurger(orderData, token) {
     
     axios.post(`/orders.json?${queryParams}`, orderData)
       .then(({data}) => {
-        console.log(orderData);
         dispatch(purchaseBurgerSuccess(data.name, orderData))
       })
       .catch((error) => {

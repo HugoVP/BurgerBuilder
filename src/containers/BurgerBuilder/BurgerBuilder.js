@@ -59,7 +59,6 @@ class BurgerBuilder extends Component {
   render() {
     if (!this.props.ingredients) {
       if (this.props.error) {
-        console.log(this.props.error);
         return <p>Ingredients can't be loaded</p>
       }
 
