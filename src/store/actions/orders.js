@@ -68,7 +68,7 @@ export function fetchOrders(token, userId) {
     dispatch(fetchOrderStart());
     const queryParams = `auth=${token}&orderBy="userId"&equalTo="${userId}"`;
 
-    axios.get(`/orders.json?${queryParams}`)
+    axios.get(`http://127.0.0.1:8888/orders?${queryParams}`)
       .then(({ data }) => {
         const orders = Object.keys(data).map((key) => ({
           ...data[key],
