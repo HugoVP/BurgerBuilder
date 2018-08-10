@@ -27,28 +27,29 @@ class App extends Component {
   }
   
   render() {
-    const routes = (this.props.isAuthenticated ? ([
-      <Route
+    let authRoutes;
+
+    if (this.props.isAuthenticated) {
+      authRoutes = ([
+        <Route
         path="/orders"
         component={asyncOrders}
-      />,
-      <Route
-        path="/checkout"
-        component={asyncCheckout}
-      />,
-      <Route
-        path="/logout"
-        component={Logout}
-      />,
-    ]) : ([])).map((route, key) => ({
-      ...route,
-      key,
-    }));
+        />,
+        <Route
+          path="/checkout"
+          component={asyncCheckout}
+        />,
+        <Route
+          path="/logout"
+          component={Logout}
+        />,
+      ]).map((route, key) => ({...route, key}));
+    }
 
     return (
       <Layout>
         <Switch>
-          {routes}
+          {authRoutes}
 
           <Route
             path="/auth"

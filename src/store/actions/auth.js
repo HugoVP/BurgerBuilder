@@ -9,10 +9,10 @@ export function authStart() {
   };
 }
 
-export function authSuccess(idToken, userId) {
+export function authSuccess(token, userId) {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    idToken,
+    token,
     userId,
   };
 }
