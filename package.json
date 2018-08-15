@@ -2,6 +2,10 @@
   "name": "burger-builder",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "8.10.0",
+    "npm": "6.3.0"
+  },
   "dependencies": {
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
