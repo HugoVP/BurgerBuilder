@@ -27,6 +27,7 @@ export function authFail(error) {
 export function logout() {
   delete localStorage.token;
   delete localStorage.expirationDate;
+  delete localStorage.userId;
   
   return {
     type: actionTypes.AUTH_LOGOUT,
