@@ -1,7 +1,4 @@
-import axios from 'axios'
-
-import {signUpUrl, signInUrl} from '../../axios-auth'
-import * as actionTypes from './actionTypes'
+import * as actionTypes from './actionTypes';
 
 export function authStart() {
   return {
@@ -30,39 +27,26 @@ export function logout() {
   }
 }
 
+export function logoutSuccess() {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  }
+}
+
 export function checkAuthTimeout(expirationTime) {
-  return (dispatch) => {
-    setTimeout(() => {
-      dispatch(logout());
-    }, expirationTime);
+  return {
+    type: actionTypes.AUTH_CHECK_TIMEOUT,
+    expirationTime,
   };
 }
 
 
 export function auth(email, password, isSignup) {
-  return (dispatch) => {
-    dispatch(authStart());
-
-    const authData = {
-      email,
-      password,
-      returnSecureToken: true,
-    };
-
-    const url = isSignup ? signUpUrl : signInUrl;
-    
-    axios.post(url, authData)
-      .then((response) => {
-        const {idToken, localId, expiresIn} = response.data;
-        localStorage.token = idToken
-        localStorage.expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-        localStorage.userId = localId;
-        dispatch(authSuccess(idToken, localId));
-        dispatch(checkAuthTimeout(expiresIn * 1000));
-      })
-      .catch((err) => {
-        dispatch(authFail(err.response.data.error))
-      });
+  return {
+    type: actionTypes.AUTH_USER,
+    email,
+    password,
+    isSignup,
   };
 }
 
@@ -74,20 +58,7 @@ export function setAuthRedirectPath(authRedirectPath) {
 }
 
 export function authCheckState() {
-  return (dispatch) => {
-    const { token, userId } = localStorage;
-
-    if (!token) {
-      dispatch(logout());
-    } else {
-      const expirationDate = new Date(localStorage.expirationDate);
-
-      if (expirationDate <= new Date()) {
-        dispatch(logout());
-      } else {
-        dispatch(authSuccess(token, userId));
-        dispatch(checkAuthTimeout(expirationDate.getTime() - new Date().getTime()));
-      }
-    }
+  return {
+    type: actionTypes.AUTH_CHECK_STATE,
   };
 }
