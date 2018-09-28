@@ -64,7 +64,7 @@ export function auth(email, password, isSignup) {
         dispatch(checkAuthTimeout(expiresIn * 1000));
       })
       .catch((err) => {
-        dispatch(authFail(err.response.data.error))
+        dispatch(authFail(err.response.data.error));
       });
   };
 }

@@ -24,7 +24,7 @@
 
  export function asyncSetIngredients() {
    return (dispatch) => {
-    axios.get('/ingredients.json')
+    axios.get('/ingredients')
       .then((response) => {
         dispatch(setIngredients(response.data));
       })

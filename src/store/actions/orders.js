@@ -25,15 +25,15 @@ export function purchaseBurgerStart() {
 export function purchaseBurger(orderData, token) {
   return (dispatch) => {
     dispatch(purchaseBurgerStart());
-    const queryParams = `auth=${token}`;
-    
-    axios.post(`/orders.json?${queryParams}`, orderData)
+    const queryParams = `token=${token}`;
+
+    axios.post(`/orders?${queryParams}`, orderData)
       .then(({data}) => {
         dispatch(purchaseBurgerSuccess(data.name, orderData))
       })
       .catch((error) => {
         purchaseBurgerFail(error);
-      })
+      });
   };
 }
 
@@ -66,14 +66,14 @@ export function fetchOrderStart() {
 export function fetchOrders(token, userId) {
   return (dispatch) => {
     dispatch(fetchOrderStart());
-    const queryParams = `auth=${token}&orderBy="userId"&equalTo="${userId}"`;
+    const queryParams = `token=${token}&orderBy="userId"&equalTo="${userId}"`;
 
-    axios.get(`/orders.json?${queryParams}`)
+    axios.get(`/orders?${queryParams}`)
       .then(({ data }) => {
         const orders = Object.keys(data).map((key) => ({
           ...data[key],
           id: key,
-        }));
+        }));        
         
         dispatch(fetchOrdersSuccess(orders));
       })
