@@ -1,5 +1,5 @@
-import * as actionTypes from './actionTypes'
-import axios from '../../axios-orders'
+import * as actionTypes from './actionTypes';
+import axios from 'axios';
 
 export function purchaseBurgerSuccess(orderId, orderData) {
   return {
@@ -23,15 +23,16 @@ export function purchaseBurgerStart() {
 }
 
 export function purchaseBurger(orderData, token) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(purchaseBurgerStart());
     const queryParams = `token=${token}`;
 
-    axios.post(`/orders?${queryParams}`, orderData)
-      .then(({data}) => {
-        dispatch(purchaseBurgerSuccess(data.name, orderData))
+    axios
+      .post(`/api/orders?${queryParams}`, orderData)
+      .then(({ data }) => {
+        dispatch(purchaseBurgerSuccess(data.name, orderData));
       })
-      .catch((error) => {
+      .catch(error => {
         purchaseBurgerFail(error);
       });
   };
@@ -64,20 +65,21 @@ export function fetchOrderStart() {
 }
 
 export function fetchOrders(token, userId) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(fetchOrderStart());
     const queryParams = `token=${token}&orderBy="userId"&equalTo="${userId}"`;
 
-    axios.get(`/orders?${queryParams}`)
+    axios
+      .get(`/api/orders?${queryParams}`)
       .then(({ data }) => {
-        const orders = Object.keys(data).map((key) => ({
+        const orders = Object.keys(data).map(key => ({
           ...data[key],
           id: key,
-        }));        
-        
+        }));
+
         dispatch(fetchOrdersSuccess(orders));
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch(fetchOrdersFail(error));
       });
   };

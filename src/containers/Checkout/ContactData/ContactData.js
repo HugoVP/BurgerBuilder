@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import axios from '../../../axios-orders'
+import axios from 'axios';
 
-import classes from './ContactData.css'
+import classes from './ContactData.css';
 
-import Button from '../../../components/UI/Button/Button'
-import Spinner from '../../../components/UI/Spinner/Spinner'
-import Input from '../../../components/UI/Input/Input'
-import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
+import Button from '../../../components/UI/Button/Button';
+import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
-import { purchaseBurger } from '../../../store/actions'
+import { purchaseBurger } from '../../../store/actions';
 import { checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
@@ -20,7 +20,7 @@ class ContactData extends Component {
         elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Your Name'
+          placeholder: 'Your Name',
         },
         value: '',
         validation: {
@@ -33,7 +33,7 @@ class ContactData extends Component {
         elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Your Street'
+          placeholder: 'Your Street',
         },
         value: '',
         validation: {
@@ -46,7 +46,7 @@ class ContactData extends Component {
         elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Your ZIP Code'
+          placeholder: 'Your ZIP Code',
         },
         value: '',
         validation: {
@@ -62,7 +62,7 @@ class ContactData extends Component {
         elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Your Country'
+          placeholder: 'Your Country',
         },
         value: '',
         validation: {
@@ -75,7 +75,7 @@ class ContactData extends Component {
         elementType: 'input',
         elementConfig: {
           type: 'email',
-          placeholder: 'Your Email'
+          placeholder: 'Your Email',
         },
         value: '',
         validation: {
@@ -104,11 +104,11 @@ class ContactData extends Component {
       },
     },
     formIsValid: false,
-  }
+  };
 
-  orderHandler = (event) => {
+  orderHandler = event => {
     event.preventDefault();
-    
+
     const { orderForm } = this.state;
     const formData = {};
 
@@ -121,10 +121,10 @@ class ContactData extends Component {
       price: this.props.totalPrice,
       formData,
       userId: this.props.userId,
-    };    
+    };
 
-    this.props.onPurchaseBurger(orderData, this.props.token)
-  }
+    this.props.onPurchaseBurger(orderData, this.props.token);
+  };
 
   inputChagedHandler = (event, inputId) => {
     const updatedOrderForm = {
@@ -140,52 +140,50 @@ class ContactData extends Component {
     updatedFormElement.isValid = checkValidity(value, validation);
     updatedFormElement.touched = true;
     updatedOrderForm[inputId] = updatedFormElement;
-    
+
     let formIsValid = true;
 
-    /* Check validity for the complete form */ 
+    /* Check validity for the complete form */
+
     for (let inputId in updatedOrderForm) {
       if (!updatedOrderForm[inputId].isValid) {
         formIsValid = false;
         break;
       }
     }
-    
+
     this.setState({
       orderForm: updatedOrderForm,
       formIsValid,
     });
-  }
+  };
 
-  render () {
+  render() {
     const { orderForm } = this.state;
 
-    const formElementsArray = Object.keys(orderForm)
-      .map((key) => ({
-        id: key,
-        config: orderForm[key],
-      }));
+    const formElementsArray = Object.keys(orderForm).map(key => ({
+      id: key,
+      config: orderForm[key],
+    }));
 
     let form = <Spinner />;
 
     if (!this.props.loading) {
       form = (
         <form>
-          {
-            formElementsArray.map(({id, config}) => (
-              <Input
-                key={id}
-                elementType={config.elementType}
-                elementConfig={config.elementConfig}
-                value={config.value}
-                shouldValidate={'validation' in config}
-                invalid={!config.isValid}
-                touched={config.touched}
-                changed={event => this.inputChagedHandler(event, id)}
-              />
-            ))
-          }
-          
+          {formElementsArray.map(({ id, config }) => (
+            <Input
+              key={id}
+              elementType={config.elementType}
+              elementConfig={config.elementConfig}
+              value={config.value}
+              shouldValidate={'validation' in config}
+              invalid={!config.isValid}
+              touched={config.touched}
+              changed={event => this.inputChagedHandler(event, id)}
+            />
+          ))}
+
           <Button
             btnType="Success"
             clicked={this.orderHandler}
@@ -202,11 +200,11 @@ class ContactData extends Component {
         <h4>Enter your Contact Data</h4>
         {form}
       </div>
-    )
+    );
   }
 }
 
-function mapStateToProps({burgerBuilder, orders, auth}) {
+function mapStateToProps({ burgerBuilder, orders, auth }) {
   return {
     ingredients: burgerBuilder.ingredients,
     totalPrice: burgerBuilder.totalPrice,
@@ -224,6 +222,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withErrorHandler(ContactData, axios)
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(ContactData, axios));
