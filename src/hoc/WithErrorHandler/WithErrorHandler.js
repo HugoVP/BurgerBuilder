@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 
-import Aux from "../Aux/Aux";
+import Aux from '../Aux/Aux';
 import Modal from '../../components/UI/Modal/Modal';
 
 function withErrorHandler(WrappedComponent, axios) {
   return class extends Component {
     state = {
-      error: null
+      error: null,
     };
 
     errorConfirmedHandler = () => {
-      this.setState({error: null});
+      this.setState({ error: null });
     };
 
     componentWillMount() {
-      this.requestInteceptor = axios.interceptors.request.use((requestConfig) => {
-        this.setState({error: null})
+      this.requestInteceptor = axios.interceptors.request.use(requestConfig => {
+        this.setState({ error: null });
         return requestConfig;
-      });      
+      });
 
       this.responseInterceptor = axios.interceptors.response.use(
         response => response,
-        error => this.setState({error})
+        error => this.setState({ error })
       );
     }
 
@@ -31,21 +31,18 @@ function withErrorHandler(WrappedComponent, axios) {
     }
 
     render() {
-      const { message } = this.state.error || {message: ''};
+      const { message } = this.state.error || { message: '' };
 
       return (
         <Aux>
-          <Modal
-            show={message !== ''}
-            modalClosed={this.errorConfirmedHandler}
-          >
-            { message }
+          <Modal show={message !== ''} modalClosed={this.errorConfirmedHandler}>
+            {message}
           </Modal>
-          
+
           <WrappedComponent {...this.props} />
         </Aux>
       );
-    }    
+    }
   };
 }
 
