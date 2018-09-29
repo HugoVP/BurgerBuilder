@@ -1,4 +1,4 @@
 export const signInUrl =
-  'http://localhost:8000/api/auth/login'
+  'http://localhost:7777/api/auth/login'
 export const signUpUrl =
-  'http://localhost:8000/api/auth/signup';
+  'http://localhost:7777/api/auth/signup';
